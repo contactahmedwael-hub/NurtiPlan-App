@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NutriPlan - Food, Nutrition & Fitness Planner</title>
+    <link rel="icon" href="./src/images/favicon.png">
+    <script>
+        window.FontAwesomeConfig = { autoReplaceSvg: "nest" };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/js/all.min.js"
+        integrity="sha512-6BTOlkauINO65nLhXhthZMtepgJSghyimIalb+crKRPhvhmsCdnIuGcVbR5/aQY2A+260iC1OPy1oCdB6pSSwQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/ajax/libs/sweetalert2@11"></script>
+    <link rel="icon" type="image/png" href="./favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="./favicon/favicon.svg" />
+    <link rel="shortcut icon" href="./favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon.png" />
+    <link rel="manifest" href="./favicon/site.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.plot.ly/plotly-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="./src/css/index.css" />
+    <link rel="stylesheet" href="./src/css/style.css" />
+</head>
+
+<body class="bg-gray-50 font-sans">
+    <!-- Loading Overlay -->
+    <div id="app-loading-overlay"
+        class="loading fixed inset-0 bg-white z-[100] flex items-center justify-center transition-opacity duration-500">
+        <div class="text-center">
+            <div class="relative w-20 h-20 mx-auto mb-6">
+                <div class="absolute inset-0 rounded-xl bg-linear-to-br from-emerald-400 to-teal-600 animate-pulse">
+                </div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <i class="fa-solid fa-leaf text-white text-3xl animate-bounce"></i>
+                </div>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">NutriPlan</h2>
+            <p class="text-gray-500 mb-4">Loading your wellness journey...</p>
+            <div class="flex items-center justify-center gap-1">
+                <div class="w-2 h-2 bg-emerald-500 rounded-full animate-bounce" style="animation-delay: 0ms"></div>
+                <div class="w-2 h-2 bg-emerald-500 rounded-full animate-bounce" style="animation-delay: 150ms"></div>
+                <div class="w-2 h-2 bg-emerald-500 rounded-full animate-bounce" style="animation-delay: 300ms"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <div id="sidebar" class="fixed left-0 top-0 h-full w-72 bg-white border-r border-gray-200 flex flex-col z-40">
+        <div class="p-6 border-b border-gray-100">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 rounded-xl bg-linear-to-br from-emerald-400 to-teal-600 flex items-center justify-center">
+                    <i class="fa-solid fa-leaf text-white text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-gray-900">NutriPlan</h1>
+                    <p class="text-xs text-gray-500">Your Wellness Journey</p>
+                </div>
+                <button id="sidebar-close-btn" aria-label="Close menu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+
+        <nav class="flex-1 px-4 py-6 overflow-y-auto">
+            <div class="mb-6">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 px-3">
+                    Main Menu
+                </p>
+                <ul class="space-y-1">
+                    <li>
+                        <a class="nav-link flex items-center gap-3 px-3 py-2.5 bg-emerald-50 text-emerald-700 rounded-lg transition-all"
+                            href="#">
+                            <i class="fa-solid fa-utensils w-5"></i>
+                            <span class="font-semibold">Meals & Recipes</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg transition-all"
+                            href="#">
+                            <i class="fa-solid fa-barcode w-5"></i>
+                            <span class="font-medium">Product Scanner</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg transition-all"
+                            href="#">
+                            <i class="fa-solid fa-clipboard-list w-5"></i>
+                            <span class="font-medium">Food Log</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="p-4 border-t border-gray-200">
+            <div class="flex items-center gap-3 px-3">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User"
+                    class="w-10 h-10 rounded-full object-cover" />
+                <div class="flex-1">
+                    <p class="font-semibold text-gray-900 text-sm">Youssef Amir</p>
+                    <p class="text-xs text-gray-500">Premium Member</p>
+                </div>
+                <i class="fa-solid fa-chevron-down text-gray-400 text-sm"></i>
+            </div>
+        </div>
+    </div>
+
+    <div id="main-content" class="ml-72">
+        <header id="header" class="bg-white border-b border-gray-200 sticky top-0 z-30">
+            <div class="px-8 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4 flex-1">
+                        <button id="header-menu-btn" aria-label="Toggle menu">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900">
+                                Meals & Recipes
+                            </h1>
+                            <p class="text-sm text-gray-500 mt-1">
+                                Discover delicious and nutritious recipes tailored for you
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section id="search-filters-section" class="px-8 py-6 bg-white border-b border-gray-200">
+            <div class="mx-auto">
+                <div class="mb-6">
+                    <div class="relative w-full">
+                        <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input id="search-input" type="text"
+                            placeholder="Search recipes by name, ingredient, or cuisine..."
+                            class="w-full pl-12 pr-4 py-3.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all text-sm" />
+                    </div>
+                </div>
+
+                <div id="cuisine-pills-row" class="flex flex-wrap items-center gap-3"
+                    style="overflow: hidden; transition: max-height 0.3s ease">
+                    <!-- Cuisine pills are loaded here by JavaScript (TheMealDB /list.php?a=list) -->
+                </div>
+                <button id="cuisine-see-more-btn" type="button" class="cuisine-see-more-btn mt-3" style="display: none">
+                    <span>See more</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </button>
+            </div>
+        </section>
+
+        <section id="meal-categories-section" class="px-8 py-6 bg-white">
+            <div>
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900">
+                            Browse by Meal Type
+                        </h2>
+                        <p class="text-xs text-gray-500 mt-0.5">
+                            Find the perfect recipe for any time of day
+                        </p>
+                    </div>
+                    <button class="text-emerald-600 font-medium text-sm hover:text-emerald-700 flex items-center gap-1">
+                        View All <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+
+                <div id="categories-grid" class="grid grid-cols-6 gap-3">
+                    <!-- Categories will be loaded here by JavaScript -->
+                    <div class="category-card bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-3 border border-emerald-200 hover:border-emerald-400 hover:shadow-md cursor-pointer transition-all group"
+                        data-category="Beef">
+                        <div class="flex items-center gap-2.5">
+                            <div
+                                class="text-white w-9 h-9 bg-gradient-to-br from-emerald-400 to-green-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform shadow-sm">
+                                <i class="fa-solid fa-drumstick-bite"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-gray-900">Beef</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="all-recipes-section" class="px-8 py-8 bg-gray-50">
+            <div>
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">All Recipes</h2>
+                        <p id="recipes-count" class="text-sm text-gray-600 mt-1">
+                            Showing 25 recipes
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="flex bg-gray-200 rounded-lg p-1" id="view-toggle">
+                            <button id="grid-view-btn" class="px-3 py-1.5 bg-white rounded-md shadow-sm"
+                                title="Grid View">
+                                <i class="fa-solid fa-table-cells text-gray-700"></i>
+                            </button>
+                            <button id="list-view-btn" class="px-3 py-1.5" title="List View">
+                                <i class="fa-solid fa-list text-gray-500"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="recipes-grid" class="grid grid-cols-4 gap-5">
+                    <!-- Recipes will be loaded here by JavaScript -->
+                    <div class="recipe-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer group"
+                        data-meal-id="52772">
+                        <div class="relative h-48 overflow-hidden">
+                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                src="https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg"
+                                alt="Teriyaki Chicken Casserole" loading="lazy" />
+                            <div class="absolute bottom-3 left-3 flex gap-2">
+                                <span
+                                    class="px-2 py-1 bg-white/90 backdrop-blur-sm text-xs font-semibold rounded-full text-gray-700">
+                                    Chicken
+                                </span>
+                                <span class="px-2 py-1 bg-emerald-500 text-xs font-semibold rounded-full text-white">
+                                    Japanese
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3
+                                class="text-base font-bold text-gray-900 mb-1 group-hover:text-emerald-600 transition-colors line-clamp-1">
+                                Teriyaki Chicken Casserole
+                            </h3>
+                            <p class="text-xs text-gray-600 mb-3 line-clamp-2">
+                                Delicious recipe to try!
+                            </p>
+                            <div class="flex items-center justify-between text-xs">
+                                <span class="font-semibold text-gray-900">
+                                    <i class="fa-solid fa-utensils text-emerald-600 mr-1"></i>
+                                    Chicken
+                                </span>
+                                <span class="font-semibold text-gray-500">
+                                    <i class="fa-solid fa-globe text-blue-500 mr-1"></i>
+                                    Japanese
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="meal-details" class="px-8 py-8 bg-gray-50" style="display: none">
+            <div class="max-w-7xl mx-auto">
+                <!-- Back Button -->
+                <button id="back-to-meals-btn"
+                    class="flex items-center gap-2 text-gray-600 hover:text-emerald-600 font-medium mb-6 transition-colors">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Recipes</span>
+                </button>
+
+                <!-- Hero Section -->
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
+                    <div class="relative h-80 md:h-96">
+                        <img src="https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg"
+                            alt="Teriyaki Chicken Casserole" class="w-full h-full object-cover" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-8">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span
+                                    class="px-3 py-1 bg-emerald-500 text-white text-sm font-semibold rounded-full">Chicken</span>
+                                <span
+                                    class="px-3 py-1 bg-blue-500 text-white text-sm font-semibold rounded-full">Japanese</span>
+                                <span
+                                    class="px-3 py-1 bg-purple-500 text-white text-sm font-semibold rounded-full">Casserole</span>
+                            </div>
+                            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2">
+                                Teriyaki Chicken Casserole
+                            </h1>
+                            <div class="flex items-center gap-6 text-white/90">
+                                <span class="flex items-center gap-2">
+                                    <i class="fa-solid fa-clock"></i>
+                                    <span>30 min</span>
+                                </span>
+                                <span class="flex items-center gap-2">
+                                    <i class="fa-solid fa-utensils"></i>
+                                    <span id="hero-servings">4 servings</span>
+                                </span>
+                                <span class="flex items-center gap-2">
+                                    <i class="fa-solid fa-fire"></i>
+                                    <span id="hero-calories">485 cal/serving</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex flex-wrap gap-3 mb-8">
+                    <button id="log-meal-btn"
+                        class="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition-all"
+                        data-meal-id="52772">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                        <span>Log This Meal</span>
+                    </button>
+                </div>
+
+                <!-- Main Content Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Left Column - Ingredients & Instructions -->
+                    <div class="lg:col-span-2 space-y-8">
+                        <!-- Ingredients -->
+                        <div class="bg-white rounded-2xl shadow-lg p-6">
+                            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-list-check text-emerald-600"></i>
+                                Ingredients
+                                <span class="text-sm font-normal text-gray-500 ml-auto">9 items</span>
+                            </h2>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                <div
+                                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors">
+                                    <input type="checkbox"
+                                        class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300" />
+                                    <span class="text-gray-700">
+                                        <span class="font-medium text-gray-900">3/4 cup</span> soy
+                                        sauce
+                                    </span>
+                                </div>
+                                <div
+                                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors">
+                                    <input type="checkbox"
+                                        class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300" />
+                                    <span class="text-gray-700">
+                                        <span class="font-medium text-gray-900">1/2 cup</span>
+                                        water
+                                    </span>
+                                </div>
+                                <div
+                                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors">
+                                    <input type="checkbox"
+                                        class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300" />
+                                    <span class="text-gray-700">
+                                        <span class="font-medium text-gray-900">1/4 cup</span>
+                                        brown sugar
+                                    </span>
+                                </div>
+                                <div
+                                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors">
+                                    <input type="checkbox"
+                                        class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300" />
+                                    <span class="text-gray-700">
+                                        <span class="font-medium text-gray-900">1/2 teaspoon</span>
+                                        ground ginger
+                                    </span>
+                                </div>
+                                <div
+                                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors">
+                                    <input type="checkbox"
+                                        class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300" />
+                                    <span class="text-gray-700">
+                                        <span class="font-medium text-gray-900">1/2 teaspoon</span>
+                                        minced garlic
+                                    </span>
+                                </div>
+                                <div
+                                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors">
+                                    <input type="checkbox"
+                                        class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300" />
+                                    <span class="text-gray-700">
+                                        <span class="font-medium text-gray-900">4 Tablespoons</span>
+                                        cornstarch
+                                    </span>
+                                </div>
+                                <div
+                                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors">
+                                    <input type="checkbox"
+                                        class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300" />
+                                    <span class="text-gray-700">
+                                        <span class="font-medium text-gray-900">2</span> chicken
+                                        breasts
+                                    </span>
+                                </div>
+                                <div
+                                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors">
+                                    <input type="checkbox"
+                                        class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300" />
+                                    <span class="text-gray-700">
+                                        <span class="font-medium text-gray-900">1 bag</span>
+                                        stir-fry vegetables
+                                    </span>
+                                </div>
+                                <div
+                                    class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl hover:bg-emerald-50 transition-colors">
+                                    <input type="checkbox"
+                                        class="ingredient-checkbox w-5 h-5 text-emerald-600 rounded border-gray-300" />
+                                    <span class="text-gray-700">
+                                        <span class="font-medium text-gray-900">3 cups</span>
+                                        brown rice
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Instructions -->
+                        <div class="bg-white rounded-2xl shadow-lg p-6">
+                            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-shoe-prints text-emerald-600"></i>
+                                Instructions
+                            </h2>
+                            <div class="space-y-4">
+                                <div class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0">
+                                        1
+                                    </div>
+                                    <p class="text-gray-700 leading-relaxed pt-2">
+                                        Preheat oven to 350° F. Spray a 9x13-inch baking pan with
+                                        non-stick spray.
+                                    </p>
+                                </div>
+                                <div class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0">
+                                        2
+                                    </div>
+                                    <p class="text-gray-700 leading-relaxed pt-2">
+                                        Combine soy sauce, ½ cup water, brown sugar, ginger and
+                                        garlic in a small saucepan and cover. Bring to a boil over
+                                        medium heat. Remove lid and cook for one minute once
+                                        boiling.
+                                    </p>
+                                </div>
+                                <div class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0">
+                                        3
+                                    </div>
+                                    <p class="text-gray-700 leading-relaxed pt-2">
+                                        Meanwhile, stir together the cornstarch and 2 tablespoons
+                                        of water in a separate dish until smooth. Once sauce is
+                                        boiling, add mixture to the saucepan and stir to combine.
+                                        Cook until the sauce starts to thicken then remove from
+                                        heat.
+                                    </p>
+                                </div>
+                                <div class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0">
+                                        4
+                                    </div>
+                                    <p class="text-gray-700 leading-relaxed pt-2">
+                                        Place the chicken breasts in the prepared pan. Pour one
+                                        cup of the sauce over top of chicken. Place chicken in
+                                        oven and bake 35 minutes or until cooked through. Remove
+                                        from oven and shred chicken in the pan using two forks.
+                                    </p>
+                                </div>
+                                <div class="flex gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors">
+                                    <div
+                                        class="w-10 h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold shrink-0">
+                                        5
+                                    </div>
+                                    <p class="text-gray-700 leading-relaxed pt-2">
+                                        *Meanwhile, steam the vegetables according to package
+                                        directions and stir together with the cooked brown rice.
+                                        Add the remaining sauce to the mixture and stir to
+                                        combine. Serve the chicken over the rice and veggie
+                                        mixture.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Video Section -->
+                        <div class="bg-white rounded-2xl shadow-lg p-6">
+                            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-video text-red-500"></i>
+                                Video Tutorial
+                            </h2>
+                            <div class="relative aspect-video rounded-xl overflow-hidden bg-gray-100">
+                                <iframe src="https://www.youtube.com/embed/4aZr5hZXP_s"
+                                    class="absolute inset-0 w-full h-full" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column - Nutrition -->
+                    <div class="space-y-6">
+                        <!-- Nutrition Facts -->
+                        <div class="bg-white rounded-2xl shadow-lg p-6 sticky top-24">
+                            <h2 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-chart-pie text-emerald-600"></i>
+                                Nutrition Facts
+                            </h2>
+                            <div id="nutrition-facts-container">
+                                <p class="text-sm text-gray-500 mb-4">Per serving</p>
+
+                                <div
+                                    class="text-center py-4 mb-4 bg-linear-to-br from-emerald-50 to-teal-50 rounded-xl">
+                                    <p class="text-sm text-gray-600">Calories per serving</p>
+                                    <p class="text-4xl font-bold text-emerald-600">485</p>
+                                    <p class="text-xs text-gray-500 mt-1">Total: 1940 cal</p>
+                                </div>
+
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                                            <span class="text-gray-700">Protein</span>
+                                        </div>
+                                        <span class="font-bold text-gray-900">42g</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-2">
+                                        <div class="bg-emerald-500 h-2 rounded-full" style="width: 84%"></div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                                            <span class="text-gray-700">Carbs</span>
+                                        </div>
+                                        <span class="font-bold text-gray-900">52g</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-2">
+                                        <div class="bg-blue-500 h-2 rounded-full" style="width: 17%"></div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-3 h-3 rounded-full bg-purple-500"></div>
+                                            <span class="text-gray-700">Fat</span>
+                                        </div>
+                                        <span class="font-bold text-gray-900">8g</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-2">
+                                        <div class="bg-purple-500 h-2 rounded-full" style="width: 12%"></div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-3 h-3 rounded-full bg-orange-500"></div>
+                                            <span class="text-gray-700">Fiber</span>
+                                        </div>
+                                        <span class="font-bold text-gray-900">4g</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-2">
+                                        <div class="bg-orange-500 h-2 rounded-full" style="width: 14%"></div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-3 h-3 rounded-full bg-pink-500"></div>
+                                            <span class="text-gray-700">Sugar</span>
+                                        </div>
+                                        <span class="font-bold text-gray-900">12g</span>
+                                    </div>
+                                    <div class="w-full bg-gray-100 rounded-full h-2">
+                                        <div class="bg-pink-500 h-2 rounded-full" style="width: 24%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-6 pt-6 border-t border-gray-100">
+                                    <h3 class="text-sm font-semibold text-gray-900 mb-3">
+                                        Vitamins & Minerals (% Daily Value)
+                                    </h3>
+                                    <div class="grid grid-cols-2 gap-3 text-sm">
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Vitamin A</span>
+                                            <span class="font-medium">15%</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Vitamin C</span>
+                                            <span class="font-medium">25%</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Calcium</span>
+                                            <span class="font-medium">4%</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-gray-600">Iron</span>
+                                            <span class="font-medium">12%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============= PRODUCT SCANNER SECTION ============= -->
+        <section id="products-section" class="px-8 py-8 bg-gray-50 min-h-screen" style="display: none">
+            <div class="max-w-7xl mx-auto">
+                <!-- Search Header -->
+                <div class="bg-linear-to-r from-emerald-600 to-teal-600 rounded-2xl p-6 mb-6 text-white">
+                    <h2 class="text-2xl font-bold mb-2">
+                        <i class="fa-solid fa-barcode mr-2"></i>
+                        Product Search & Barcode Scanner
+                    </h2>
+                    <p class="opacity-90 mb-4">
+                        Search for packaged food products to view nutrition information
+                    </p>
+
+                    <div class="flex gap-3">
+                        <div class="flex-1 relative">
+                            <input type="text" id="product-search-input"
+                                placeholder="Search by product name (e.g., Cheerios, Nutella, Coca-Cola...)"
+                                class="w-full px-5 py-3.5 pr-12 bg-white/90 backdrop-blur-sm text-gray-900 rounded-xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50" />
+                            <i class="fa-solid fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        </div>
+                        <button id="search-product-btn"
+                            class="px-6 py-3.5 bg-white text-emerald-700 rounded-xl font-semibold hover:bg-gray-100 transition-all">
+                            Search
+                        </button>
+                    </div>
+
+                    <div class="flex items-center gap-4 mt-4">
+                        <div class="flex-1 h-px bg-white/30"></div>
+                        <span class="text-sm opacity-80">or</span>
+                        <div class="flex-1 h-px bg-white/30"></div>
+                    </div>
+
+                    <div class="mt-4 flex gap-3">
+                        <div class="flex-1 relative">
+                            <input type="text" id="barcode-input"
+                                placeholder="Enter barcode number (e.g., 7613034626844)"
+                                class="w-full px-5 py-3.5 pr-12 bg-white/90 backdrop-blur-sm text-gray-900 rounded-xl placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white/50" />
+                            <i class="fa-solid fa-barcode absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        </div>
+                        <button id="lookup-barcode-btn"
+                            class="px-6 py-3.5 bg-amber-500 text-white rounded-xl font-semibold hover:bg-amber-600 transition-all">
+                            <i class="fa-solid fa-search mr-2"></i>Lookup
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Nutrition Grade Filter -->
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="text-sm font-medium text-gray-700">Filter by Nutri-Score:</span>
+                    <div class="flex gap-2">
+                        <button
+                            class="nutri-score-filter px-4 py-2 rounded-lg text-sm font-bold transition-all bg-emerald-600 text-white"
+                            data-grade="">
+                            All
+                        </button>
+                        <button
+                            class="nutri-score-filter px-4 py-2 rounded-lg text-sm font-bold transition-all bg-green-100 text-green-700 hover:bg-green-200"
+                            data-grade="a">
+                            A
+                        </button>
+                        <button
+                            class="nutri-score-filter px-4 py-2 rounded-lg text-sm font-bold transition-all bg-lime-100 text-lime-700 hover:bg-lime-200"
+                            data-grade="b">
+                            B
+                        </button>
+                        <button
+                            class="nutri-score-filter px-4 py-2 rounded-lg text-sm font-bold transition-all bg-yellow-100 text-yellow-700 hover:bg-yellow-200"
+                            data-grade="c">
+                            C
+                        </button>
+                        <button
+                            class="nutri-score-filter px-4 py-2 rounded-lg text-sm font-bold transition-all bg-orange-100 text-orange-700 hover:bg-orange-200"
+                            data-grade="d">
+                            D
+                        </button>
+                        <button
+                            class="nutri-score-filter px-4 py-2 rounded-lg text-sm font-bold transition-all bg-red-100 text-red-700 hover:bg-red-200"
+                            data-grade="e">
+                            E
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Category Buttons -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                        Browse by Category
+                    </h3>
+                    <div class="flex gap-3 overflow-x-auto pb-2" id="product-categories">
+                        <button
+                            class="product-category-btn px-4 py-2 rounded-full text-sm font-semibold text-white whitespace-nowrap transition-transform hover:scale-105"
+                            style="background-color: #a855f7">
+                            <i class="fa-solid fa-cookie mr-1.5"></i>Snacks
+                        </button>
+                        <button
+                            class="product-category-btn px-4 py-2 rounded-full text-sm font-semibold text-white whitespace-nowrap transition-transform hover:scale-105"
+                            style="background-color: #3b82f6">
+                            <i class="fa-solid fa-glass-water mr-1.5"></i>Beverages
+                        </button>
+                        <button
+                            class="product-category-btn px-4 py-2 rounded-full text-sm font-semibold text-white whitespace-nowrap transition-transform hover:scale-105"
+                            style="background-color: #f97316">
+                            <i class="fa-solid fa-bread-slice mr-1.5"></i>Breakfast
+                        </button>
+                        <button
+                            class="product-category-btn px-4 py-2 rounded-full text-sm font-semibold text-white whitespace-nowrap transition-transform hover:scale-105"
+                            style="background-color: #db2777">
+                            <i class="fa-solid fa-cake-candles mr-1.5"></i>Desserts
+                        </button>
+                        <button
+                            class="product-category-btn px-4 py-2 rounded-full text-sm font-semibold text-white whitespace-nowrap transition-transform hover:scale-105"
+                            style="background-color: #0ea5e9">
+                            <i class="fa-solid fa-cheese mr-1.5"></i>Dairy
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold text-gray-900">Search Results</h3>
+                        <p id="products-count" class="text-sm text-gray-600">
+                            Search for products to see results
+                        </p>
+                    </div>
+
+                    <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                        <div class="product-card bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer group"
+                            data-barcode="7613034626844">
+                            <div class="relative h-40 bg-gray-100 flex items-center justify-center overflow-hidden">
+                                <img class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
+                                    src="https://images.openfoodfacts.org/images/products/316/893/015/9742/front_fr.54.400.jpg"
+                                    alt="Product Name" loading="lazy" />
+
+                                <!-- Nutri-Score Badge -->
+                                <div
+                                    class="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded uppercase">
+                                    Nutri-Score A
+                                </div>
+
+                                <!-- NOVA Badge -->
+                                <div class="absolute top-2 right-2 bg-lime-500 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center"
+                                    title="NOVA 2">
+                                    2
+                                </div>
+                            </div>
+
+                            <div class="p-4">
+                                <p class="text-xs text-emerald-600 font-semibold mb-1 truncate">
+                                    Brand Name
+                                </p>
+                                <h3
+                                    class="font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-emerald-600 transition-colors">
+                                    Product Name
+                                </h3>
+
+                                <div class="flex items-center gap-3 text-xs text-gray-500 mb-3">
+                                    <span><i class="fa-solid fa-weight-scale mr-1"></i>250g</span>
+                                    <span><i class="fa-solid fa-fire mr-1"></i>350 kcal/100g</span>
+                                </div>
+
+                                <!-- Mini Nutrition -->
+                                <div class="grid grid-cols-4 gap-1 text-center">
+                                    <div class="bg-emerald-50 rounded p-1.5">
+                                        <p class="text-xs font-bold text-emerald-700">8.5g</p>
+                                        <p class="text-[10px] text-gray-500">Protein</p>
+                                    </div>
+                                    <div class="bg-blue-50 rounded p-1.5">
+                                        <p class="text-xs font-bold text-blue-700">45.2g</p>
+                                        <p class="text-[10px] text-gray-500">Carbs</p>
+                                    </div>
+                                    <div class="bg-purple-50 rounded p-1.5">
+                                        <p class="text-xs font-bold text-purple-700">12.3g</p>
+                                        <p class="text-[10px] text-gray-500">Fat</p>
+                                    </div>
+                                    <div class="bg-orange-50 rounded p-1.5">
+                                        <p class="text-xs font-bold text-orange-700">18.5g</p>
+                                        <p class="text-[10px] text-gray-500">Sugar</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============= FOOD LOG SECTION ============= -->
+        <section id="foodlog-section" class="px-8 py-8 bg-gray-50 min-h-screen" style="display: none">
+            <div class="max-w-7xl mx-auto">
+                <!-- Page Header -->
+                <div class="bg-linear-to-r from-indigo-600 to-purple-600 rounded-2xl p-6 mb-6 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h2 class="text-2xl font-bold mb-2">
+                                <i class="fa-solid fa-clipboard-list mr-2"></i>
+                                Daily Food Log
+                            </h2>
+                            <p class="opacity-90">
+                                Track and monitor your daily nutrition intake
+                            </p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm opacity-80">Today</p>
+                            <p class="text-xl font-bold" id="foodlog-date">
+                                Tuesday, Jan 14
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Today's Summary with Progress -->
+                <div id="foodlog-today-section" class="bg-white rounded-2xl p-6 mb-6 border-2 border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">
+                        <i class="fa-solid fa-fire text-orange-500 mr-2"></i>
+                        Today's Nutrition
+                    </h3>
+
+                    <!-- Progress Bars -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                        <!-- Calories Progress -->
+                        <div class="bg-emerald-50 rounded-xl p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold text-gray-700">Calories</span>
+                                <span id="foodlog-calories-value" class="text-sm text-gray-500">0 / 2000 kcal</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div id="foodlog-calories-bar" class="bg-emerald-500 h-2.5 rounded-full"
+                                    style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <!-- Protein Progress -->
+                        <div class="bg-blue-50 rounded-xl p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold text-gray-700">Protein</span>
+                                <span id="foodlog-protein-value" class="text-sm text-gray-500">0 / 50 g</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div id="foodlog-protein-bar" class="bg-blue-500 h-2.5 rounded-full" style="width: 0%">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Carbs Progress -->
+                        <div class="bg-amber-50 rounded-xl p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold text-gray-700">Carbs</span>
+                                <span id="foodlog-carbs-value" class="text-sm text-gray-500">0 / 250 g</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div id="foodlog-carbs-bar" class="bg-amber-500 h-2.5 rounded-full" style="width: 0%">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Fat Progress -->
+                        <div class="bg-purple-50 rounded-xl p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-semibold text-gray-700">Fat</span>
+                                <span id="foodlog-fat-value" class="text-sm text-gray-500">0 / 65 g</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div id="foodlog-fat-bar" class="bg-purple-500 h-2.5 rounded-full" style="width: 0%">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logged Items -->
+                    <div class="border-t border-gray-200 pt-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="text-sm font-semibold text-gray-700">
+                                Logged Items (0)
+                            </h4>
+                            <button id="clear-foodlog" class="text-red-500 hover:text-red-600 text-sm font-medium"
+                                style="display: none">
+                                <i class="fa-solid fa-trash mr-1"></i>Clear All
+                            </button>
+                        </div>
+
+                        <div id="logged-items-list" class="space-y-2">
+                            <!-- Empty State -->
+                            <div class="text-center py-8 text-gray-500">
+                                <i class="fa-solid fa-utensils text-4xl mb-3 text-gray-300"></i>
+                                <p class="font-medium">No meals logged today</p>
+                                <p class="text-sm">
+                                    Add meals from the Meals page or scan products
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weekly Overview -->
+                <div class="bg-white rounded-2xl p-6 mb-6 border-2 border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">
+                        <i class="fa-solid fa-calendar-week text-indigo-500 mr-2"></i>
+                        Weekly Overview
+                    </h3>
+
+                    <div id="weekly-chart" class="rounded-xl">
+                        <!-- Sun-Sat day strip is rendered here by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Weekly Summary Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-white rounded-xl p-4 border-2 border-gray-200 flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center">
+                            <i class="fa-solid fa-chart-line text-emerald-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Weekly Average</p>
+                            <p id="weekly-avg-calories" class="text-lg font-bold text-gray-900">0 kcal</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border-2 border-gray-200 flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
+                            <i class="fa-solid fa-utensils text-blue-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Total Items This Week</p>
+                            <p id="weekly-total-items" class="text-lg font-bold text-gray-900">0 items</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border-2 border-gray-200 flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
+                            <i class="fa-solid fa-bullseye text-purple-600"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">Days On Goal</p>
+                            <p id="weekly-days-on-goal" class="text-lg font-bold text-gray-900">0 / 7</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button
+                        class="quick-log-btn bg-white rounded-xl p-4 border-2 border-gray-200 hover:border-emerald-500 transition-all text-left flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center">
+                            <i class="fa-solid fa-plus text-emerald-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-900">Log a Meal</p>
+                            <p class="text-sm text-gray-500">Add from recipes</p>
+                        </div>
+                    </button>
+
+                    <button
+                        class="quick-log-btn bg-white rounded-xl p-4 border-2 border-gray-200 hover:border-teal-500 transition-all text-left flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-teal-100 flex items-center justify-center">
+                            <i class="fa-solid fa-barcode text-teal-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-gray-900">Scan Product</p>
+                            <p class="text-sm text-gray-500">Use barcode scanner</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Log Meal Modal -->
+    <div id="log-meal-modal" class="fixed inset-0 z-[90] items-center justify-center p-4" style="display: none">
+        <div id="log-meal-modal-backdrop" class="absolute inset-0 bg-black/50"></div>
+        <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-6" role="dialog" aria-modal="true"
+            aria-labelledby="log-meal-modal-title">
+            <div class="flex items-center gap-4 mb-6">
+                <img id="log-meal-modal-img" src="" alt="" class="w-16 h-16 rounded-xl object-cover shrink-0" />
+                <div class="min-w-0">
+                    <h2 id="log-meal-modal-title" class="text-xl font-bold text-gray-900">Log This Meal</h2>
+                    <p id="log-meal-modal-name" class="text-gray-500 truncate"></p>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <p class="text-sm font-semibold text-gray-700 mb-2">Number of Servings</p>
+                <div class="flex items-center gap-3">
+                    <button id="log-meal-servings-minus" type="button"
+                        class="w-11 h-11 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-700 transition-colors"
+                        aria-label="Decrease servings">
+                        <i class="fa-solid fa-minus"></i>
+                    </button>
+                    <div id="log-meal-servings-value"
+                        class="flex-1 h-11 rounded-lg border border-gray-200 flex items-center justify-center text-lg font-bold text-gray-900">
+                        1
+                    </div>
+                    <button id="log-meal-servings-plus" type="button"
+                        class="w-11 h-11 rounded-lg bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-700 transition-colors"
+                        aria-label="Increase servings">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-emerald-50 rounded-xl p-4 mb-6">
+                <p class="text-sm text-gray-600 mb-3">Estimated nutrition per serving:</p>
+                <div class="grid grid-cols-4 gap-2 text-center">
+                    <div>
+                        <p id="log-meal-preview-calories" class="text-xl font-bold text-emerald-600">-</p>
+                        <p class="text-xs text-gray-500">Calories</p>
+                    </div>
+                    <div>
+                        <p id="log-meal-preview-protein" class="text-xl font-bold text-blue-600">-</p>
+                        <p class="text-xs text-gray-500">Protein</p>
+                    </div>
+                    <div>
+                        <p id="log-meal-preview-carbs" class="text-xl font-bold text-orange-600">-</p>
+                        <p class="text-xs text-gray-500">Carbs</p>
+                    </div>
+                    <div>
+                        <p id="log-meal-preview-fat" class="text-xl font-bold text-purple-600">-</p>
+                        <p class="text-xs text-gray-500">Fat</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-3">
+                <button id="log-meal-cancel-btn" type="button"
+                    class="flex-1 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold transition-all">
+                    Cancel
+                </button>
+                <button id="log-meal-confirm-btn" type="button"
+                    class="flex-1 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <span>Log Meal</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main JavaScript Entry Point -->
+    <script type="module" src="./src/js/main.js"></script>
+</body>
+
+</html>
