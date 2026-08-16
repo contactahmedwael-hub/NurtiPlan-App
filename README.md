@@ -1,8 +1,3 @@
-### Short Punchy Description
-
-**NutriPlan** is a modern web-based food, nutrition, and fitness planner designed to help you discover healthy recipes, scan packaged products using Open Food Facts and TheMealDB, and track your daily wellness journey with interactive summaries.
-
----
 
 # NutriPlan 🥗
 
